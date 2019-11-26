@@ -9,11 +9,18 @@ class SettingView extends StatefulWidget {
 }
 
 class StateSetting extends State<SettingView> {
-
-    ThemeDatas _curThemeData = ThemeDatas.pink;
+    ThemeDatas _curThemeData;
 
   @override
   Widget build(BuildContext context) {
+      if (_curThemeData == null) {
+          Color initColor = StoreProvider.of<AppState>(context).state.themeColor;
+          if (initColor == Colors.pink) {
+              _curThemeData = ThemeDatas.pink;
+          } else {
+              _curThemeData = ThemeDatas.blue;
+          }
+      }
     return TitlessScaffold(
         body: Column(
             children: <Widget>[
