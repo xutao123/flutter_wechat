@@ -14,6 +14,7 @@ class StateSetting extends State<SettingView> {
   @override
   Widget build(BuildContext context) {
       if (_curThemeData == null) {
+          /// 获取store中的值必须在initState之后，否则报错
           Color initColor = StoreProvider.of<AppState>(context).state.themeColor;
           if (initColor == Colors.pink) {
               _curThemeData = ThemeDatas.pink;
