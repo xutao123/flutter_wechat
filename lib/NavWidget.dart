@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_wechat/redux/AppState.dart';
 import 'data/ConstantsValue.dart';
 import 'package:flutter_wechat/fragment/WeChatListPage.dart';
 import 'package:flutter_wechat/fragment/ChatContactPage.dart';
@@ -16,7 +18,6 @@ class NavWidget extends StatefulWidget {
 class NavWidgetState extends State<NavWidget> {
   int _curPageIndex = 0;
   static PageController mPageController = PageController();
-  Widget _bottomNavigationBar;
   List<Widget> _page = <Widget>[
     WechatInfoPage(),
     ChatContactPage(),
@@ -45,17 +46,18 @@ class NavWidgetState extends State<NavWidget> {
       child: Column(
         children: <Widget>[
           _buildMainFragment(),
-//          _buildBottomNavigation(),
-          _bottomNavigationBar = _buildBottomNavigation(),
+          _buildBottomNavigation(),
         ],
       ),
     );
   }
 
   ///绘制底部的导航栏
-  BottomNavigationBar _buildBottomNavigation() {
-    return BottomNavigationBar(
-        selectedItemColor: Colors.green,
+  Widget _buildBottomNavigation() {
+    return StoreConnector<AppState,Color>(
+        converter: (store) => store.state.themeColor,
+      builder: (context, themeColor) => BottomNavigationBar(
+        selectedItemColor: themeColor,
         selectedFontSize: 12,
         unselectedItemColor: Colors.black,
         unselectedFontSize: 12,
@@ -84,7 +86,8 @@ class NavWidgetState extends State<NavWidget> {
           });
           mPageController.jumpToPage(_curPageIndex);
         },
-      );
+      )
+    );
   }
 
   ///Fragment View
