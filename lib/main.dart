@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// StoreProvider是一个InheritedWidget控件，用于向子控件传递数据
     return StoreProvider<AppState>(
       /// 后面通过StoreProvider将store和Widget联系起来，详细说明请看TitlessScaffold中
       store: appStore,

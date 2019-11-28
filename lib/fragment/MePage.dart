@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wechat/activity/SettingView.dart';
+import 'package:flutter_wechat/util/test.dart' as test;
 
 class MePage extends StatefulWidget {
   @override
@@ -49,7 +50,10 @@ class MePageState extends State<MePage> {
       );
   }
 
-  _clickSetting() => Navigator.push(context, MaterialPageRoute(builder: (context) => SettingView()));
+  _clickSetting() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SettingView()));
+    test.show();
+  }
 
 }
 
