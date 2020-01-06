@@ -4,6 +4,7 @@ import 'package:flutter_wechat/redux/AppState.dart';
 import 'package:flutter_wechat/util/SizeUtil.dart' as SizeUtil;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 
+///不包含状态栏的Scaffold
 class TitlessScaffold extends StatefulWidget {
 
     final bool extendBody;

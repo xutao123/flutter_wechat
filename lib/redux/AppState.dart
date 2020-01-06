@@ -6,7 +6,9 @@ class AppState { ///可以定义多个State状态属性,这里只定义了一个
     AppState({this.themeColor});
 }
 
-AppState appReducer(AppState state, dynamic action) { ///每一个State都由一个Reducer来产生返回，action任意类型，可以忽略dynamic
+///每一个State都由一个Reducer来产生返回，action任意类型，可以忽略dynamic
+AppState appReducer(AppState state, dynamic action) {
+    ///需要将每个Action和State中的值联系起来
     return AppState(themeColor: ThemeDataReducer(state.themeColor, action));
 }
 

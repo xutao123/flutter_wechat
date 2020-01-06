@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_wechat/redux/AppState.dart';
 import 'package:flutter_wechat/view/TitlessScaffold.dart';
 
+///设置页面
 class SettingView extends StatefulWidget {
   @override
   State createState() => new StateSetting();
@@ -34,30 +35,6 @@ class StateSetting extends State<SettingView> {
             ],
         ),
     );
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget( oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
   }
 
   selectTheme(value) {

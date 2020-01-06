@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_wechat/activity/AccountView.dart';
 import 'package:flutter_wechat/activity/SettingView.dart';
 import 'package:flutter_wechat/util/test.dart' as test;
 import 'package:scoped_model/scoped_model.dart';
@@ -18,13 +21,61 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
     // TODO: implement build
     return Column(
       children: <Widget>[
+        buildAccountItem(),
+        Padding(padding: EdgeInsets.only(top: 10),),
         buildSettingItem(),
-        Padding(
-          padding: EdgeInsets.only(top: 10),
-        ),
+        Padding(padding: EdgeInsets.only(top: 10),),
         buildDecompressionItem(),
       ],
     );
+  }
+
+  /// //////////////////////////////////////
+  /// 个人信息Item
+  Widget buildAccountItem() {
+    return GestureDetector(
+      onTap: () => _clickAccount(),
+      child: Container(
+        height: 120,
+        color: Colors.white,
+        /// 使用Stack和 Align,Position结合使用来设置相对位置
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Expanded(flex: 3, child: Image(image: AssetImage("images/avatar_0.png"), width: 70, height: 70)),
+            Expanded(flex: 8, child: buildAccountNormalInfoItem()),
+            Expanded(flex: 2, child: Container(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Image(image: AssetImage("images/qrcode.png"), width: 20, height: 20,),
+                  Icon(Icons.arrow_right, size: 25, color: Colors.grey[500],),
+                ],
+              ),
+            ),),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildAccountNormalInfoItem() {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text("原来足球是圆的原来足球是圆的",
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
+        Padding(padding: EdgeInsets.only(top: 6),),
+        Text("id:123123123", style: TextStyle(fontSize: 16,)),
+      ],
+    );
+  }
+
+  _clickAccount() {
+    Navigator.push(context, MaterialPageRoute(builder: (Context) => AccountView()));
   }
 
   /// ////////////////////////////////////////////////////////////
@@ -96,6 +147,7 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
 }
 
 // ignore: missing_method_parameters
