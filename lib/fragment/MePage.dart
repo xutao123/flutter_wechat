@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_wechat/activity/AccountView.dart';
+import 'package:flutter_wechat/activity/DemoView.dart';
 import 'package:flutter_wechat/activity/SettingView.dart';
 import 'package:flutter_wechat/util/test.dart' as test;
 import 'package:scoped_model/scoped_model.dart';
@@ -26,6 +27,8 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
         buildSettingItem(),
         Padding(padding: EdgeInsets.only(top: 10),),
         buildDecompressionItem(),
+        Padding(padding: EdgeInsets.only(top: 10),),
+        buildDemoItem(),
       ],
     );
   }
@@ -115,7 +118,7 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   }
 
   /// ////////////////////////////////////////////////////////////
-  ///解压Item
+  ///解压Item,测试使用scoped_model来管理转态
   DecompressionCount _countScope = DecompressionCount();
 
   Widget buildDecompressionItem() {
@@ -147,6 +150,39 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+
+  /// 这个页面用于测试各种控件的使用
+  Widget buildDemoItem() {
+    return GestureDetector(
+      onTap: () => gotoDemo(),
+      child: Container(
+        height: 60,
+        color: Colors.white,
+        child: Stack(
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(left: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("测试页面"),
+                )),
+
+            Padding(
+                padding: EdgeInsets.only(right: 10),
+                child:Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(Icons.arrow_right, color: Colors.grey),
+                ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  gotoDemo() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DemoView()));
+  }
 
 }
 
