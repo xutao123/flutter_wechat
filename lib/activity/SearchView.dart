@@ -15,30 +15,32 @@ class StateSearchView extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-      return TitlessScaffold(
-          body: buildSearchView(),
-      );
+    return TitlessScaffold(
+      body: buildSearchView(),
+    );
   }
 
   buildSearchView() {
-      return Column(
+    return Column(
+      children: <Widget>[
+        Stack(
           children: <Widget>[
-              Stack(
-                  children: <Widget>[
-                      Container(
-                          decoration: BoxDecoration(color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(6))),
-                        child: Row(
-                            children: <Widget>[
-                                Icon(Icons.search, color: Colors.grey,),
-                                Padding(padding: EdgeInsets.only(left: 10)),
-                                Expanded(child: TextField()),
-                            ],
-                        ),
-                      ),
-                  ],
-              )
+            Container(
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6))),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.search,
+                    color: Colors.grey,
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 10)),
+                  Expanded(child: TextField()),
+                ],
+              ),
+            ),
           ],
-      );
+        )
+      ],
+    );
   }
 }
