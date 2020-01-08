@@ -24,23 +24,16 @@ class DemoState extends State<DemoView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Center(
-                child: Text(
-              "Widget测试Demo",
-              style: TextStyle(fontSize: 20),
-            )),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-            ),
+            Center(child: Text("Widget测试Demo", style: TextStyle(fontSize: 20),)),
+            Padding(padding: EdgeInsets.only(top: 10),),
             buildSwitchCheck(),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-            ),
+            Padding(padding: EdgeInsets.only(top: 10),),
             buildTextField(),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-            ),
+            Padding(padding: EdgeInsets.only(top: 10),),
             buildFormLogin(),
+            Padding(padding: EdgeInsets.only(top: 10),),
+            buildWrap(),
+
           ],
         ),
       ),
@@ -177,5 +170,31 @@ class DemoState extends State<DemoView> {
       return "密码不能大于10位";
     }
     return null;
+  }
+
+  Widget buildWrap() {
+    return Wrap( //相对于Row和Column是可以换行和指定方向的
+      spacing: 10, // 主轴(水平)方向间距
+      runSpacing: 10, // 纵轴（垂直）方向间距
+      alignment: WrapAlignment.center, //沿主轴方向居中
+      children: <Widget>[
+        new Chip(
+          avatar: new CircleAvatar(backgroundColor: Colors.blue, child: Text('A')),
+          label: new Text('Hamilton'),
+        ),
+        new Chip(
+          avatar: new CircleAvatar(backgroundColor: Colors.blue, child: Text('M')),
+          label: new Text('Lafayette'),
+        ),
+        new Chip(
+          avatar: new CircleAvatar(backgroundColor: Colors.blue, child: Text('H')),
+          label: new Text('Mulligan'),
+        ),
+        new Chip(
+          avatar: new CircleAvatar(backgroundColor: Colors.blue, child: Text('J')),
+          label: new Text('Laurens'),
+        ),
+      ],
+    );
   }
 }
