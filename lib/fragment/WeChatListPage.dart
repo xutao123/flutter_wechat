@@ -126,7 +126,6 @@ class WechatInfoPageState extends State<WechatInfoPage> {
       }
   }
 
-
   ///绘制SearchView
   Widget buildSearchView() {
     return Padding(
@@ -169,7 +168,8 @@ class WechatInfoPageState extends State<WechatInfoPage> {
     if (_currentState == _SCROLL_STATE_LOAD_MORE) {
       return Container(height: 40, child: Center(child: Text("上拉加载更多")));
     } else if (_currentState == _SCROLL_STATE_LOADING) {
-      return Container(height: 40, child: Center(child: Text("加载中...")));
+      return Container(height: 40, child: Center(child: SizedBox(width: 30, height: 30,
+          child: CircularProgressIndicator(backgroundColor: Colors.grey, valueColor: AlwaysStoppedAnimation(Colors.blue),))));
     } else {
       return Container(height: 40, child: Center(child: Text("没有更多数据")));
     }
