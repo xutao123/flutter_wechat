@@ -4,7 +4,7 @@ import 'package:flutter_wechat/activity/SearchView.dart';
 import 'package:flutter_wechat/activity/PersonalChatView.dart';
 import 'package:flutter_wechat/util/TextStyle.dart' as testStyle;
 
-///微信聊天信息List
+///微信聊天信息List， 上拉加载更多，一次最多加载10个
 class WechatInfoPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -14,7 +14,16 @@ class WechatInfoPage extends StatefulWidget {
 }
 
 class WechatInfoPageState extends State<WechatInfoPage> {
-  ScrollController _scrollController;
+  ScrollController _scrollController = ScrollController();
+  int _itemCount = 10;
+  /// 加载更多状态，提示上拉加载更多
+  final _SCROLL_STATE_LOAD_MORE = 0;
+  /// 加载中
+  final _SCROLL_STATE_LOADING = 1;
+  /// 没有更多数据
+  final _SCROLL_STATE_NO_MORE_DATE = 2;
+  var _currentState;
+
   static const _nickName = [
     "原来足球是圆的",
     "原来乒乓球是圆的",
@@ -29,6 +38,27 @@ class WechatInfoPageState extends State<WechatInfoPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+
+    _currentState = _SCROLL_STATE_LOAD_MORE;
+
+    /// Register a closure to be called when ###the object changes###.
+    /// 需要在initState()中进行监听
+    /// ScrollController中包含一个ScrollPosition，里面包含的信息更加丰富，
+    /// 如果一个ScrollController监听多个滑动widget，可以用ScrollPosition加以区分
+    _scrollController.addListener((){
+      /// _scrollController.offset == _scrollController.position.pixels滑动的距离
+      /// maxScrollExtent：最大可滑动距离，    minScrollExtent：最小可滑动距离，0
+      /// jumpTo():控制滑动组件的滑动距离，无动画 ,   animateTo():控制滑动组件的滑动距离，有动画
+      if (_scrollController.offset
+          == _scrollController.position.maxScrollExtent) { /// 滑动距离等于最大滑动距离，说明滑到底部
+          _loadMore();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Column(children: <Widget>[_buildTitleBar(), buildChatInfoList()]);
@@ -41,7 +71,8 @@ class WechatInfoPageState extends State<WechatInfoPage> {
       child: ListView.builder(
         controller: _scrollController,
         itemBuilder: _getChatItem,
-        itemCount: 20,
+        /// 一个Search，一个上拉加载更多/加载中/没有更多
+        itemCount: _itemCount + 2,
       ),
     );
   }
@@ -50,7 +81,101 @@ class WechatInfoPageState extends State<WechatInfoPage> {
   Widget _getChatItem(BuildContext context, int index) {
     if (index == 0) {
       return buildSearchView();
+    } else if (index == _itemCount + 1) {
+      return buildTailItem();
     }
+    return buildChatItem(context, index);
+  }
+
+  String getAvatarLocalPath(int index) {
+    var i = index % 3;
+    var path;
+    switch (i) {
+      case 0:
+        path = "images/avatar_0.png";
+        break;
+      case 1:
+        path = "images/avatar_1.png";
+        break;
+      case 2:
+        path = "images/avatar_2.png";
+        break;
+      default:
+        path = "images/avatar_default.png";
+        break;
+    }
+    return path;
+  }
+
+  /// 加载更多
+  void _loadMore() {
+      if (_itemCount < 30) {
+        Future.delayed(Duration(seconds: 2), (){
+          _itemCount += 10;
+          setState(() {
+            _currentState = _SCROLL_STATE_LOAD_MORE;
+          });
+        });
+        setState(() {
+          _currentState = _SCROLL_STATE_LOADING;
+        });
+      } else {
+        setState(() {
+          _currentState = _SCROLL_STATE_NO_MORE_DATE;
+        });
+      }
+  }
+
+
+  ///绘制SearchView
+  Widget buildSearchView() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
+      child: GestureDetector(
+        //用于添加View的点击事件GestureDetector
+        onTap: () => _clickSearch,
+        child: Container(
+          height: 32,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(6)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.search,
+                color: Colors.grey,
+                size: 16,
+              ),
+
+              ///设置间隔
+              Padding(padding: const EdgeInsets.fromLTRB(3, 0, 3, 0)),
+              Text(
+                "搜索",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTailItem() {
+    if (_currentState == _SCROLL_STATE_LOAD_MORE) {
+      return Container(height: 40, child: Center(child: Text("上拉加载更多")));
+    } else if (_currentState == _SCROLL_STATE_LOADING) {
+      return Container(height: 40, child: Center(child: Text("加载中...")));
+    } else {
+      return Container(height: 40, child: Center(child: Text("没有更多数据")));
+    }
+  }
+
+  Widget buildChatItem(context, index) {
     return GestureDetector(
       onTap: () => _clickChatItem,
       child: Row(
@@ -97,7 +222,7 @@ class WechatInfoPageState extends State<WechatInfoPage> {
                             Offstage(
                               offstage: index % 3 == 1 ? false : true,
                               child:
-                                  Text("[n条]", style: testStyle.textStyle1()),
+                              Text("[n条]", style: testStyle.textStyle1()),
                             ),
                             Padding(padding: EdgeInsets.only(right: 2)),
                             Text("最后一条消息", style: testStyle.textStyle1()),
@@ -114,64 +239,6 @@ class WechatInfoPageState extends State<WechatInfoPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  String getAvatarLocalPath(int index) {
-    var i = index % 3;
-    var path;
-    switch (i) {
-      case 0:
-        path = "images/avatar_0.png";
-        break;
-      case 1:
-        path = "images/avatar_1.png";
-        break;
-      case 2:
-        path = "images/avatar_2.png";
-        break;
-      default:
-        path = "images/avatar_default.png";
-        break;
-    }
-    return path;
-  }
-
-  ///绘制SearchView
-  Widget buildSearchView() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 20, 10, 10),
-      child: GestureDetector(
-        //用于添加View的点击事件GestureDetector
-        onTap: () => _clickSearch,
-        child: Container(
-          height: 32,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(6)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 16,
-              ),
-
-              ///设置间隔
-              Padding(padding: const EdgeInsets.fromLTRB(3, 0, 3, 0)),
-              Text(
-                "搜索",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -233,5 +300,7 @@ class WechatInfoPageState extends State<WechatInfoPage> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _scrollController.dispose();
   }
+
 }
