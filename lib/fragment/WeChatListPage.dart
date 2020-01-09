@@ -71,6 +71,7 @@ class WechatInfoPageState extends State<WechatInfoPage> {
       child: ListView.builder(
         controller: _scrollController,
         itemBuilder: _getChatItem,
+///        itemExtent: 60, /// 如果每个Item的height确定且一致则使用这个配置，更高效
         /// 一个Search，一个上拉加载更多/加载中/没有更多
         itemCount: _itemCount + 2,
       ),
