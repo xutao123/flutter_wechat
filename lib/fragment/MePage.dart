@@ -45,9 +45,17 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Expanded(flex: 3, child: Image(image: AssetImage("images/avatar_0.png"), width: 70, height: 70)),
-            Expanded(flex: 8, child: buildAccountNormalInfoItem()),
-            Expanded(flex: 2, child: Container(
+            Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: Image(image: AssetImage("images/avatar_0.png"), width: 70, height: 70),
+            ),
+            /// 这个Expanded可以使得将前后两个View的占用空间去掉之后，让当前View占满整个剩下的空间
+            Expanded(
+                child: Padding(
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    child: buildAccountNormalInfoItem())
+            ),
+            Container(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -55,7 +63,7 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                   Icon(Icons.arrow_right, size: 25, color: Colors.grey[500],),
                 ],
               ),
-            ),),
+            ),
           ],
         ),
       ),
@@ -68,7 +76,7 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("原来足球是圆的原来足球是圆的",
+        Text("原来足球是圆的",
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),),
         Padding(padding: EdgeInsets.only(top: 6),),
