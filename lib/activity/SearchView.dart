@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wechat/util/SizeUtil.dart' as SizeUtil;
 import 'package:flutter_wechat/view/TitlessScaffold.dart';
 
 ///转场动画 hero

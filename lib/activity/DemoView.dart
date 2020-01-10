@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_wechat/activity/CustomScrollViewDemo.dart';
 import 'package:flutter_wechat/redux/AppState.dart';
 import 'package:flutter_wechat/view/TitlessScaffold.dart';
 
@@ -149,6 +150,7 @@ class DemoState extends State<DemoView> {
                           } else {
                             print("登录失败");
                           }
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CustomScrollViewTestRoute()));
                         },
                       ),
                     ),
