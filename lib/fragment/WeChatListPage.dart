@@ -71,13 +71,17 @@ class WechatInfoPageState extends State<WechatInfoPage> with AutomaticKeepAliveC
   ///聊天消息列表
   Widget buildChatInfoList() {
     return Expanded(
-      //用于给出ListView的高度
-      child: ListView.builder(
-        controller: _scrollController,
-        itemBuilder: _getChatItem,
+      /// Scrollbar的child可以是ListView,GridView也可以是NotificationListener
+      /// 当是NotificationListener不显示滚动条，但可以通过NotificationListener获得滚动的progress
+      /// double progress = notification.metrics.pixels / notification.metrics.maxScrollExtent;
+      child: Scrollbar(
+        child: ListView.builder(
+          controller: _scrollController,
+          itemBuilder: _getChatItem,
 ///        itemExtent: 60, /// 如果每个Item的height确定且一致则使用这个配置，更高效
-        /// 一个Search，一个上拉加载更多/加载中/没有更多
-        itemCount: _itemCount + 2,
+          /// 一个Search，一个上拉加载更多/加载中/没有更多
+          itemCount: _itemCount + 2,
+        ),
       ),
     );
   }
