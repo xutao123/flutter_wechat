@@ -6,14 +6,18 @@ import 'package:flutter_wechat/util/TextStyle.dart' as testStyle;
 
 ///微信聊天信息List， 上拉加载更多，一次最多加载10个
 class WechatInfoPage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return WechatInfoPageState();
   }
 }
 
-class WechatInfoPageState extends State<WechatInfoPage> {
+class WechatInfoPageState extends State<WechatInfoPage> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
   ScrollController _scrollController = ScrollController();
   int _itemCount = 10;
   /// 加载更多状态，提示上拉加载更多
@@ -60,7 +64,7 @@ class WechatInfoPageState extends State<WechatInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    super.build(context);
     return Column(children: <Widget>[_buildTitleBar(), buildChatInfoList()]);
   }
 
