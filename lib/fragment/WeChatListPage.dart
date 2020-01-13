@@ -74,6 +74,13 @@ class WechatInfoPageState extends State<WechatInfoPage> with AutomaticKeepAliveC
       /// Scrollbar的child可以是ListView,GridView也可以是NotificationListener
       /// 当是NotificationListener不显示滚动条，但可以通过NotificationListener获得滚动的progress
       /// double progress = notification.metrics.pixels / notification.metrics.maxScrollExtent;
+      /// metrics属性：
+      //pixels：当前滚动位置。
+      //maxScrollExtent：最大可滚动长度。
+      //extentBefore：滑出ViewPort顶部的长度；此示例中相当于顶部滑出屏幕上方的列表长度。
+      //extentInside：ViewPort内部长度；此示例中屏幕显示的列表部分的长度。
+      //extentAfter：列表中未滑入ViewPort部分的长度；此示例中列表底部未显示到屏幕范围部分的长度。
+      //atEdge：是否滑到了可滚动组件的边界（此示例中相当于列表顶或底部）。
       child: Scrollbar(
         child: ListView.builder(
           controller: _scrollController,
