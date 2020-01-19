@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_wechat/activity/AccountView.dart';
+import 'package:flutter_wechat/activity/AnimationView.dart';
 import 'package:flutter_wechat/activity/DemoView.dart';
 import 'package:flutter_wechat/activity/SettingView.dart';
 import 'package:flutter_wechat/util/test.dart' as test;
@@ -18,8 +19,7 @@ class MePage extends StatefulWidget {
 class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-      super.build(context);
-    // TODO: implement build
+    super.build(context);
     return Column(
       children: <Widget>[
         buildAccountItem(),
@@ -29,6 +29,8 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
         buildDecompressionItem(),
         Padding(padding: EdgeInsets.only(top: 10),),
         buildDemoItem(),
+        Padding(padding: EdgeInsets.only(top: 10),),
+        buildAnimationItem(),
       ],
     );
   }
@@ -156,13 +158,33 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
   /// 这个页面用于测试各种控件的使用
   Widget buildDemoItem() {
+    /// 特别注意，方法只用传方法名，不能加括号，否则该方法不被立刻执行而不是再调用的时候被执行
+    /// 方法名（不带括号）作为参数传递给其他方法时，传递的是方法的引用，该方法不会立即执行
+    return buildCommonSettingWidget("测试页面", gotoDemo);
+  }
+
+  gotoDemo() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DemoView()));
+  }
+
+  /// 进入动画Demo界面
+  buildAnimationItem() {
+    return buildCommonSettingWidget("动画页面", gotoAnimation);
+  }
+
+  gotoAnimation() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => AnimationView()));
+  }
+
+  Widget buildCommonSettingWidget(String tag, func) {
     return GestureDetector(
-      onTap: () => gotoDemo(),
+      /// 特别注意这边要加括号，否则方法体不会执行
+      /// 方法执行语句（带括号）作为参数传递给其他方法时，该方法会立即执行，我们传递过去的是方法的返回值
+      onTap: () => func(),
       child: Container(
         height: 60,
         color: Colors.white,
@@ -172,27 +194,23 @@ class MePageState extends State<MePage> with AutomaticKeepAliveClientMixin {
                 padding: EdgeInsets.only(left: 20),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("测试页面"),
+                  child: Text(tag),
                 )),
-
             Padding(
-                padding: EdgeInsets.only(right: 10),
-                child:Align(
-                  alignment: Alignment.centerRight,
-                  child: Icon(Icons.arrow_right, color: Colors.grey),
-                ),
+              padding: EdgeInsets.only(right: 10),
+              child:Align(
+                alignment: Alignment.centerRight,
+                child: Icon(Icons.arrow_right, color: Colors.grey),
+              ),
             )
           ],
         ),
       ),
     );
   }
-
-  gotoDemo() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => DemoView()));
-  }
-
 }
+
+typedef func = void Function(int i);
 
 // ignore: missing_method_parameters
 ///scoped_model做状态管理时用于存储state数据的Model
