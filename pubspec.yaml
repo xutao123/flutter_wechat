@@ -27,7 +27,6 @@ dependencies:
   flutter_redux: ^0.5.2
   ##scoped_model状态管理，pass a data from parent Widget down to in's descendants
   scoped_model: ^1.0.1
-  provider: ^4.0.1
 
 dev_dependencies:
   flutter_test:
